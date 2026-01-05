@@ -26,6 +26,45 @@ import (
 	"github.com/thlib/go-timezone-local/tzlocal"
 )
 
+// Make types for RoundTripper
+type transportWithAuthHeader struct {
+	Base      http.RoundTripper
+	AuthToken tools.AccessToken
+}
+
+func (t *transportWithAuthHeader) RoundTrip(req *http.Request) (*http.Response, error) {
+	req.Header.Set("x-looker-appid", "go-sdk")
+	req.Header.Set("Authorization", string(t.AuthToken))
+	return t.Base.RoundTrip(req)
+}
+
+func GetLookerSDK(useClientOAuth bool, config *rtl.ApiSettings, client *v4.LookerSDK, accessToken tools.AccessToken) (*v4.LookerSDK, error) {
+
+	if useClientOAuth {
+		if accessToken == "" {
+			return nil, fmt.Errorf("no access token supplied with request")
+		}
+
+		session := rtl.NewAuthSession(*config)
+		// Configure base transport with TLS
+		transport := &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: !config.VerifySsl,
+			},
+		}
+
+		// Build transport for end user token
+		session.Client = http.Client{
+			Transport: &transportWithAuthHeader{
+				Base:      transport,
+				AuthToken: accessToken,
+			},
+		}
+
+		// return SDK with new Transport
+		return v4.NewLookerSDK(session), nil
+}
+
 const (
 	DimensionsFields = "fields(dimensions(name,type,label,label_short,description,synonyms,tags,hidden,suggestable,suggestions,suggest_dimension,suggest_explore))"
 	FiltersFields    = "fields(filters(name,type,label,label_short,description,synonyms,tags,hidden,suggestable,suggestions,suggest_dimension,suggest_explore))"
