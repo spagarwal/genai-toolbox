@@ -63,6 +63,12 @@ func GetLookerSDK(useClientOAuth bool, config *rtl.ApiSettings, client *v4.Looke
 
 		// return SDK with new Transport
 		return v4.NewLookerSDK(session), nil
+	}
+
+	if client == nil {
+		return nil, fmt.Errorf("client id or client secret not valid")
+	}
+	return client, nil
 }
 
 const (
