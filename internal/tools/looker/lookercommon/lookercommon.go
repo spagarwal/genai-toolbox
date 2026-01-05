@@ -62,7 +62,10 @@ func GetLookerSDK(useClientOAuth bool, config *rtl.ApiSettings, client *v4.Looke
 		}
 
 		// return SDK with new Transport
-		return v4.NewLookerSDK(session), nil
+		return v4.NewLookerSDK(&rtl.AuthSession{
+			Config: *config,
+			Client: http.Client{Transport: newTransport},
+		}), nil
 	}
 
 	if client == nil {
