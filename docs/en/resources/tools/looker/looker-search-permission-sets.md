@@ -19,6 +19,7 @@ It's compatible with the following sources:
 `looker-search-permission-sets` accepts the following parameters:
 - `name` (optional): The name of the permission set.
 - `id` (optional): The unique id of the permission set.
+- `permissions` (optional): Filter the permission sets by permissions (comma-separated).
 - `limit` (optional): The number of results to return.
 - `offset` (optional): The number of results to skip before returning.
 
@@ -37,6 +38,7 @@ tools:
           Parameters:
           - name (optional): The name of the permission set.
           - id (optional): The unique id of the permission set.
+          - permissions (optional): Filter the permission sets by permissions (comma-separated).
           - limit (optional): The number of results to return.
           - offset (optional): The number of results to skip before returning.
 

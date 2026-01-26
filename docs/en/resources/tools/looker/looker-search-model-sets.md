@@ -19,6 +19,7 @@ It's compatible with the following sources:
 `looker-search-model-sets` accepts the following parameters:
 - `name` (optional): Filter by model set name.
 - `id` (optional): Filter by specific model set ID.
+- `models` (optional): Filter by model names (comma-separated).
 - `limit` (optional): Maximum number of results to return. Default is 100.
 - `offset` (optional): Starting point for pagination. Default is 0.
 
@@ -36,6 +37,7 @@ tools:
           Parameters:
           - name (optional): Filter by model set name.
           - id (optional): Filter by specific model set ID.
+          - models (optional): Filter by model names (comma-separated).
           - limit (optional): Maximum number of results to return. Default is 100.
           - offset (optional): Starting point for pagination. Default is 0.
 

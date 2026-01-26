@@ -78,7 +78,7 @@ func (cfg Config) Initialize(srcs map[string]sources.Source) (tools.Tool, error)
 	params := parameters.Parameters{
 		parameters.NewStringParameterWithRequired("name", "The name of the permission set.", false),
 		parameters.NewIntParameterWithRequired("id", "The unique id of the permission set.", false),
-		parameters.NewStringParameterWithRequired("permission", "Filter the permission sets by permission.", false),
+		parameters.NewStringParameterWithRequired("permissions", "Filter the permission sets by permissions. (Comma separated list of permissions)", false),
 		parameters.NewIntParameterWithDefault("limit", 100, "The number of permission sets to fetch. Default is 100"),
 		parameters.NewIntParameterWithDefault("offset", 0, "The number of permission sets to skip before fetching. Default 0"),
 	}
@@ -161,9 +161,9 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 		return nil, fmt.Errorf("error getting sdk: %w", err)
 	}
 
-	var permissionPtr *string
-	if permission, ok := paramsMap["permission"].(string); ok && permission != "" {
-		permissionPtr = &permission
+	var permissionsPtr *string
+	if permissions, ok := paramsMap["permissions"].(string); ok && permissions != "" {
+		permissionsPtr = &permissions
 	}
 
 	query := map[string]interface{}{
@@ -175,8 +175,8 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 	if idPtr != nil {
 		query["id"] = *idPtr
 	}
-	if permissionPtr != nil {
-		query["permission"] = *permissionPtr
+	if permissionsPtr != nil {
+		query["permissions"] = *permissionsPtr
 	}
 	if limitPtr != nil {
 		query["limit"] = *limitPtr

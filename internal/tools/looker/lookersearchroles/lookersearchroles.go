@@ -78,8 +78,8 @@ func (cfg Config) Initialize(srcs map[string]sources.Source) (tools.Tool, error)
 	params := parameters.Parameters{
 		parameters.NewStringParameterWithRequired("name", "The name of the role.", false),
 		parameters.NewIntParameterWithRequired("id", "The unique id of the role.", false),
-		parameters.NewStringParameterWithRequired("permission_set_name", "The name of the permission set to filter by.", false),
-		parameters.NewStringParameterWithRequired("model_set_name", "The name of the model set to filter by.", false),
+		parameters.NewStringParameterWithRequired("permission_set_ids", "The ids of the permission sets to filter by. (Comma seperated list)", false),
+		parameters.NewStringParameterWithRequired("model_set_ids", "The ids of the model sets to filter by. (Comma seperated list)", false),
 		parameters.NewIntParameterWithDefault("limit", 100, "The number of roles to fetch. Default is 100"),
 		parameters.NewIntParameterWithDefault("offset", 0, "The number of roles to skip before fetching. Default 0"),
 	}
@@ -151,14 +151,14 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 		limitPtr = &limit64
 	}
 
-	var permissionSetNamePtr *string
-	if permissionSetName, ok := paramsMap["permission_set_name"].(string); ok && permissionSetName != "" {
-		permissionSetNamePtr = &permissionSetName
+	var permissionSetIdsPtr *string
+	if permissionSetIds, ok := paramsMap["permission_set_ids"].(string); ok && permissionSetIds != "" {
+		permissionSetIdsPtr = &permissionSetIds
 	}
 
-	var modelSetNamePtr *string
-	if modelSetName, ok := paramsMap["model_set_name"].(string); ok && modelSetName != "" {
-		modelSetNamePtr = &modelSetName
+	var modelSetIdsPtr *string
+	if modelSetIds, ok := paramsMap["model_set_ids"].(string); ok && modelSetIds != "" {
+		modelSetIdsPtr = &modelSetIds
 	}
 
 	sdk, err := lookercommon.GetLookerSDK(t.UseClientOAuth, t.ApiSettings, t.Client, accessToken)
@@ -175,11 +175,11 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 	if idPtr != nil {
 		query["id"] = *idPtr
 	}
-	if permissionSetNamePtr != nil {
-		query["permission_set_name"] = *permissionSetNamePtr
+	if permissionSetIdsPtr	 != nil {
+		query["permission_set_ids"] = *permissionSetIdsPtr
 	}
-	if modelSetNamePtr != nil {
-		query["model_set_name"] = *modelSetNamePtr
+	if modelSetIdsPtr != nil {
+		query["model_set_ids"] = *modelSetIdsPtr
 	}
 	if limitPtr != nil {
 		query["limit"] = *limitPtr

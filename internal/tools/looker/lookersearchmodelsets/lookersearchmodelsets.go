@@ -78,7 +78,7 @@ func (cfg Config) Initialize(srcs map[string]sources.Source) (tools.Tool, error)
 	params := parameters.Parameters{
 		parameters.NewStringParameterWithRequired("name", "The name of the model set.", false),
 		parameters.NewIntParameterWithRequired("id", "The unique id of the model set.", false),
-		parameters.NewStringParameterWithRequired("model", "A model name to filter model sets by.", false),
+		parameters.NewStringParameterWithRequired("models", "A model names to filter model sets by. (Comma separated list of models)", false),
 		parameters.NewIntParameterWithDefault("limit", 100, "The number of model sets to fetch. Default is 100"),
 		parameters.NewIntParameterWithDefault("offset", 0, "The number of model sets to skip before fetching. Default 0"),
 	}
@@ -162,7 +162,7 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 	}
 
 	var modelsPtr *string
-	if model, ok := paramsMap["model"].(string); ok && model != "" {
+	if model, ok := paramsMap["models"].(string); ok && model != "" {
 		modelsPtr = &model
 	}
 

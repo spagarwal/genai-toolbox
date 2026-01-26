@@ -28,6 +28,8 @@ In Looker, a **Role** defines what a user or group can do and which data they ca
 | :--- | :--- | :--- | :--- | :--- |
 | `name` | string | The name of the role to search for. | No | |
 | `id` | integer | The unique ID of the role. | No | |
+| `permission_set_ids` | string | Filter selection by permission set IDs (comma-separated). | No | |
+| `model_set_ids` | string | Filter selection by model set IDs (comma-separated). | No | |
 | `limit` | integer | The maximum number of roles to return. | No | 100 |
 | `offset` | integer | The number of roles to skip before starting counts. | No | 0 |
 
