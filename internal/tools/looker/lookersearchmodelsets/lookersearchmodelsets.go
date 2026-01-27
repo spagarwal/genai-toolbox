@@ -176,7 +176,7 @@ func (t Tool) Invoke(ctx context.Context, resourceMgr tools.SourceProvider, para
 		query["id"] = *idPtr
 	}
 	if modelsPtr != nil {
-		query["model"] = *modelsPtr // Add the custom parameter
+		query["models"] = *modelsPtr // Add the custom parameter
 	}
 	if limitPtr != nil {
 		query["limit"] = *limitPtr
